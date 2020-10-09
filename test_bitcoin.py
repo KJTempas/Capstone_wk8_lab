@@ -12,7 +12,11 @@ class TestBitcoin(TestCase):
         num_of_bitcoin = bitcoin.get_number_of_bitcoin()
         self.assertEqual(123, num_of_bitcoin)
 
-    
+    #verify that input rejected if non-numerical; last value should be accepted
+    @patch('builtins.input', side_effect=['asdf', 'test', '12.3'])
+    def test_get_number_of_bitcoin_validation(self, mock_input):
+        num_of_bitcoin = bitcoin.get_number_of_bitcoin()  #call method
+        self.assertEqual(12.3, num_of_bitcoin)
 
     # mock print function
     @patch('builtins.print')
