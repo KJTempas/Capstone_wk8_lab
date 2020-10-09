@@ -13,3 +13,18 @@ class TestBitcoin(TestCase):
         self.assertEqual(123, num_of_bitcoin)
 
     
+
+    # mock print function
+    @patch('builtins.print')
+    def test_display_result(self, mock_print):
+        #action   ????do I need to make variables like num_of_bitcoin = 10?
+        bitcoin.display_result(10, 1234.56) #call method with data provided in test
+        #assert that the following string is the result when the function is called with the above input
+        mock_print.assert_called_with('$ 1234.56 is the equivalent of 10 bitcoins')
+
+
+    def test_calculate_bitcoin_to_dollar(self):
+        #calculate value using method
+        value = bitcoin.calculate_bitcoin_to_dollar(123, 10)
+        expected_value = 1230
+        self.assertEqual(value, expected_value)
