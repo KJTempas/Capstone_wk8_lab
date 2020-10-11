@@ -6,6 +6,22 @@ import bitcoin
 
 class TestBitcoin(TestCase):
 
+#Mock the API call by providing a mock JSON response. 
+# Assert that your program calculates the correct value in dollars.
+
+    @patch('requests.get')
+    def test_request_exchange_rate(self, mock_requests_get):
+        mock_rate_float = 12345
+       
+        example_api_response = {"time":{"updated":"Oct 10, 2020 01:37:00 UTC","updatedISO":"2020-10-10T01:37:00+00:00","updateduk":"Oct 10, 2020 at 02:37 BST"},"disclaimer":"This data was produced from the CoinDesk Bitcoin Price Index (USD). Non-USD currency data converted using hourly conversion rate from openexchangerates.org","chartName":"Bitcoin","bpi":{"USD":{"code":"USD","symbol":"&#36;","rate":"11,087.4885","description":"United States Dollar","rate_float":11087.4885},"GBP":{"code":"GBP","symbol":"&pound;","rate":"8,497.1407","description":"British Pound Sterling","rate_float":8497.1407},"EUR":{"code":"EUR","symbol":"&euro;","rate":"9,371.6775","description":"Euro","rate_float":9371.6775}}}
+
+        mock_requests_get().json.return_value = example_api_response
+        converted = bitcoin.calculate_bitcoin_to_dollar(mock_rate_float, 100 ) 
+        expected = 1234500
+        self.assertEqual(expected, converted)
+
+
+#I did these to practice mocking input and printing
     #use mock input() to force it to return '123'
     @patch('builtins.input', side_effect=['123'])
     def test_get_number_of_bitcoin(self, mock_input):
